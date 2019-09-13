@@ -1,6 +1,6 @@
-##Tugas Besar I
+# Tugas Besar I - AI
 
-#Minimax Algorithm and Alpha Beta Pruning
+## Minimax Algorithm and Alpha Beta Pruning
 
 Tugas Besar I pada kuliah IF3170 bertujuan agar peserta kuliah mendapatkan wawasan bagaimana Algoritme Minimax dan Alpha Beta Pruning diimplementasikan pada suatu bentuk permainan yang memanfaatkan adversarial search.
 
