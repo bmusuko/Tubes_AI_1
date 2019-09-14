@@ -79,6 +79,7 @@ class Board:
                                     total_point += point(counter,is_point_bot) 
                                     print("serong kiri")
                         counter = 0
+                        is_point_bot = "none"
                 elif(self.board[i][j] == '0'):
                     if(is_point_bot == "none"):
                         is_point_bot = True
@@ -109,9 +110,9 @@ class Board:
                         is_point_bot = False
                 if(j == self.column-1):
                     if(counter != 0):
-                        if(i==self.row-1 and self.board[i][j-counter-1] == '-'):
+                        if(i==self.row-1 and self.board[i][j-counter] == '-'):
                             total_point += point(counter,is_point_bot)
-                        elif(self.board[i][j-counter-1] =='-' and self.board[i+1][j-counter-1] != '-'):
+                        elif(self.board[i][j-counter] =='-' and self.board[i+1][j-counter] != '-'):
                             total_point += point(counter,is_point_bot) # cek horizontal
         
         #vertical
@@ -139,6 +140,171 @@ class Board:
                     else:
                         is_point_bot = False
                         counter = 1
-        # diagonal belum
-                        
+        #diagonal 1a
+        #
+        for i in range(3,self.row-1):
+            counter = 0
+            is_point_bot = "none"
+            for j in range(i+1):
+                #print(i-j,j)
+                if(self.board[i-j][j] == '-'):
+                    if(counter != 0):
+                        if(self.board[i+1][j] != '-' and i != self.row-1):
+                            total_point += point(counter,is_point_bot)
+                            print("serong1")
+                        if(i+counter+1-j <self.row and j-counter-1 >=0 ):
+                            if(self.board[i+counter+1-j][j-counter-1] != '-'):
+                                total_point += point(counter,is_point_bot)
+                        counter = 0
+                        is_point_bot = "none"
+                elif(self.board[i-j][j] == '0'):
+                    if(is_point_bot == "none"):
+                        is_point_bot = True
+                    if(is_point_bot):
+                        counter += 1
+                    else:
+                        if(i+counter+1-j <self.row and j-counter-1 >=0 ):
+                            if(self.board[i+counter+1-j][j-counter-1] != '-'):
+                                total_point += point(counter,is_point_bot)
+                                print("serong2")
+                        counter = 1
+                        is_point_bot = True
+                else:
+                    if(is_point_bot == "none"):
+                        is_point_bot = False
+                    if( not is_point_bot):
+                        counter += 1
+                    else:
+                        if(i+counter+1-j <self.row and j-counter-1 >=0 ):
+                            if(self.board[i+counter+1-j][j-counter-1] != '-'):
+                                total_point += point(counter,is_point_bot)
+                                print("serong3")
+                        counter = 1
+                        is_point_bot = False
+        #diagonal 1b  
+        for j in range(self.column-3):
+            i = self.row-1
+            counter = 0
+            is_point_bot = "none"
+            while(j<self.column and i >=0):
+                #print(i,j,counter)
+                if(self.board[i][j] == '-'):
+                    if(counter != 0):
+                        if(self.board[i+1][j] != '-'):
+                            total_point += point(counter,is_point_bot)
+                            print("serong011")
+                        if(i+counter+1<self.row and j-counter-1>=0):
+                            if(self.board[i+counter+1][j-counter-1] != '-'):
+                                total_point += point(counter,is_point_bot)
+                                print("serong022")
+                    counter = 0
+                    is_point_bot = "none"
+                elif(self.board[i][j] == '0'):
+                    if(is_point_bot == "none"):
+                        is_point_bot = True
+                    if(is_point_bot):
+                        counter += 1
+                    else:
+                        if(i+counter+1 <self.row and j-counter-1 >=0 ):
+                            if(self.board[i+counter+1][j-counter-1] != '-'):
+                                total_point += point(counter,is_point_bot)
+                                print("serong033")
+                        counter = 1
+                        is_point_bot = True
+                else:
+                    if(is_point_bot == "none"):
+                        is_point_bot = False
+                    if(not is_point_bot):
+                        counter += 1
+                    else:
+                        if(i+counter+1 <self.row and j-counter-1 >=0 ):
+                            if(self.board[i+counter+1][j-counter-1] != '-'):
+                                total_point += point(counter,is_point_bot)
+                                print("serong044")
+                        counter = 1
+                        is_point_bot = False
+                i -= 1
+                j += 1
+        
+        #diagonal 2a
+        for i in range(3,self.row-1):
+            counter = 0
+            is_point_bot = "none"
+            for j in range(i+1):
+                if(self.board[i-j][self.column-j-1] == '-'):
+                    if(counter != 0):
+                        if(self.board[i-j+1][self.column-j-1] != '-'):
+                            total_point += point(counter,is_point_bot)
+                        if(i-j+counter+1 < self.row and self.column-j+counter <self.column):
+                            if(self.board[i-j+counter+1][self.column-j+counter] != '-'):
+                                total_point += point(counter,is_point_bot)
+                        counter = 0
+                        is_point_bot = "none"
+                elif(self.board[i-j][self.column-j-1] == '0'):
+                    if(is_point_bot == "none"):
+                        is_point_bot = True
+                    if(is_point_bot):
+                        counter += 1
+                    else:
+                        if(i-j+counter+1 < self.row and self.column-j+counter <self.column):
+                            if(self.board[i-j+counter+1][self.column-j+counter] != '-'):
+                                total_point += point(counter,is_point_bot)
+                        counter = 1
+                        is_point_bot = True
+                else:
+                    if(is_point_bot == "none"):
+                        is_point_bot = False
+                    if( not is_point_bot):
+                        counter += 1
+                    else:
+                        if(i-j+counter+1 < self.row and self.column-j+counter <self.column):
+                            if(self.board[i-j+counter+1][self.column-j+counter] != '-'):
+                                total_point += point(counter,is_point_bot)
+                        counter = 1
+                        is_point_bot = True
+                #print(i-j,self.column-1-j)
+
+        #diagonal 2b
+        for j in range(self.column-1,2,-1):
+            i = self.row-1
+            counter = 0
+            is_point_bot = "none"
+            while(j>=0 and i >= 0):
+                if(self.board[i][j] == '-'):
+                    if(counter != 0):
+                        if(self.board[i+1][j] != '-'):
+                            total_point += point(counter,is_point_bot)
+                            print("serong01")
+                        if(i+counter+1<self.row and j+counter+1<self.column):
+                            if(self.board[i+counter+1][j+counter+1] != '-'):
+                                total_point += point(counter,is_point_bot)
+                                print("serong02")
+                    counter = 0
+                    is_point_bot = "none"
+                elif(self.board[i][j] == '0'):
+                    if(is_point_bot == "none"):
+                        is_point_bot = True
+                    if(is_point_bot):
+                        counter += 1
+                    else:
+                        if(i+counter+1<self.row and j+counter+1<self.column):
+                            if(self.board[i+counter+1][j+counter+1] != '-'):
+                                total_point += point(counter,is_point_bot)
+                                print("serong03")
+                        counter = 1
+                        is_point_bot = True
+                else:
+                    if(is_point_bot == "none"):
+                        is_point_bot = False
+                    if(not is_point_bot):
+                        counter += 1
+                    else:
+                        if(i+counter+1<self.row and j+counter+1<self.column):
+                            if(self.board[i+counter+1][j+counter+1] != '-'):
+                                total_point += point(counter,is_point_bot)
+                                print("serong04")
+                        counter = 1
+                        is_point_bot = False
+                j -= 1
+                i -= 1
         return total_point
