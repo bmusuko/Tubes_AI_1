@@ -139,6 +139,6 @@ class Board:
                     else:
                         is_point_bot = False
                         counter = 1
-        # diagonal
+        # diagonal belum
                         
         return total_point
