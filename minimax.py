@@ -1,18 +1,19 @@
 from tree import Tree
 from board import Board
+import copy
 
 maximum_depth = 5
 
 def minimax(current_board, depth, is_max, alpha, beta):
 	if(depth == maximum_depth): #sudah mencapai daun dari pohon pencarian
-		return """nilai evaluasi dari papan permainan"""
+		return current_board.eval()
 	
-	elif(isMax): #mencari nilai maximal dari anak-anaknya
+	elif(is_max): #mencari nilai maximal dari anak-anaknya
 		maximum_value = 2**64 * -1 #inisiasi nilai maximum
 
 		
 		for i in range(1,11): #proses pembuatan pohon pencarian
-			prediction = Board() #buat papan kosong
+			prediction = copy.deepcopy(current_board) #buat papan kosong, pake deepcopy
 			#copy kondisi dari current_board ke prediction
 			prediction.move(i) #coba sebuah langkah
 
@@ -36,7 +37,7 @@ def minimax(current_board, depth, is_max, alpha, beta):
 		minimum_value = 2 ** 64 #inisiasi nilai minimum
 
 		for i in range(1,11): #proses pembuatan pohon pencarian
-			prediction = Board() #buat sebuah papan kosong untuk percobaan langkah
+			prediction = copy.deepcopy(current_board) #buat sebuah papan kosong untuk percobaan langkah
 			#copy kondisi dari current_board ke prediction
 			prediction.move(i) #coba sebuah langkah
 
