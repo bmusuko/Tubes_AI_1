@@ -114,7 +114,31 @@ class Board:
                         elif(self.board[i][j-counter-1] =='-' and self.board[i+1][j-counter-1] != '-'):
                             total_point += point(counter,is_point_bot) # cek horizontal
         
+        #vertical
         for i in range(self.column):
-            for j in range(self.row):
-                
+            counter = 0
+            is_point_bot = "none"
+            for j in range(self.row-1,-1,-1):
+                if(self.board[j][i] == '-'):
+                    if(counter != 0):
+                        total_point += point(counter,is_point_bot)
+                    break
+                elif(self.board[j][i] == '0'):
+                    if(is_point_bot == "none"):
+                        is_point_bot = True
+                    if(is_point_bot):
+                        counter += 1
+                    else:
+                        is_point_bot = True
+                        counter = 1
+                else:
+                    if(is_point_bot == "none"):
+                        is_point_bot = False
+                    if(not is_point_bot):
+                        counter += 1
+                    else:
+                        is_point_bot = False
+                        counter = 1
+        # diagonal
+                        
         return total_point
