@@ -40,6 +40,9 @@ class Board:
             return True
     
     def print(self):
+        for column in range(self.column):
+            print(column+1,end=" ")
+        print()
         for row in range(self.row):
             for column in range(self.column):
                 print(self.board[row][column],end=" ")
@@ -115,6 +118,12 @@ class Board:
                             total_point += point(counter,is_point_bot)
                         elif(self.board[i][j-counter] =='-' and self.board[i+1][j-counter] != '-'):
                             total_point += point(counter,is_point_bot) # cek horizontal
+                if(counter == 4):
+                    if(is_point_bot):
+                        return 10000000
+                    else:
+                        return -10000000
+                                
         
         #vertical
         for i in range(self.column):
@@ -141,6 +150,11 @@ class Board:
                     else:
                         is_point_bot = False
                         counter = 1
+                if(counter == 4):
+                    if(is_point_bot):
+                        return 10000000
+                    else:
+                        return -10000000
         #diagonal 1a
         #
         for i in range(3,self.row-1):
@@ -182,6 +196,11 @@ class Board:
                                 ##print("serong3")
                         counter = 1
                         is_point_bot = False
+                if(counter == 4):
+                    if(is_point_bot):
+                        return 10000000
+                    else:
+                        return -10000000
         #diagonal 1b  
         for j in range(self.column-3):
             i = self.row-1
@@ -226,7 +245,11 @@ class Board:
                         is_point_bot = False
                 i -= 1
                 j += 1
-        
+                if(counter == 4):
+                    if(is_point_bot):
+                        return 10000000
+                    else:
+                        return -10000000
         #diagonal 2a
         for i in range(3,self.row-1):
             counter = 0
@@ -264,7 +287,11 @@ class Board:
                         counter = 1
                         is_point_bot = True
                 ###print(i-j,self.column-1-j)
-
+                if(counter == 4):
+                    if(is_point_bot):
+                        return 10000000
+                    else:
+                        return -10000000
         #diagonal 2b
         for j in range(self.column-1,2,-1):
             i = self.row-1
@@ -308,4 +335,9 @@ class Board:
                         is_point_bot = False
                 j -= 1
                 i -= 1
+                if(counter == 4):
+                    if(is_point_bot):
+                        return 10000000
+                    else:
+                        return -10000000
         return total_point

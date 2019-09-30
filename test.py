@@ -33,4 +33,8 @@ while abs(temp) < 1000000:
 	# if (abs(board.eval())>)
 	board.print()
 	temp = board.eval()
-	# print(temp)
+	#print(temp)
+if(board.turn == 0):
+	print('player 2 win')
+else:
+	print('player 1 win')
