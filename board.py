@@ -6,11 +6,11 @@ def point(x,is_bot):
     if(x == 1):
         temp =  1
     elif(x == 2):
-        temp =  17
+        temp =  50
     elif(x == 3):
-        temp = 81
+        temp = 1000
     else:
-        temp = 100000
+        temp = 10000000
     if(not is_bot):
         temp *= -1
     return temp

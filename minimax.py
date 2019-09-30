@@ -36,8 +36,11 @@ def minimax(current_board, depth, is_max, alpha, beta): #alphanya max, betanya m
 			if (value>maximum_value):
 				maximum_value = value
 				max_node.changeValue(maximum_value,i)
+			if (maximum_value>1000000):
+				alpha = 2**64
+			else:
+				alpha = max(alpha, maximum_value)
 			
-			alpha = max(alpha, maximum_value)
 
 			# print("alpha ",str(alpha))
 			# print("beta ",str(beta))
@@ -71,7 +74,11 @@ def minimax(current_board, depth, is_max, alpha, beta): #alphanya max, betanya m
 				minimum_value  = value
 				min_node.changeValue(minimum_value,i)
 			# print("Ini min value2 "+str(minimum_value))
-			beta = min(beta, minimum_value)
+			if (minimum_value < -1000000):
+				beta = 2 ** 64 * -1
+			else:
+				beta = min(beta, minimum_value)
+			
 			# print("masih bisa")
 			# print(beta)
 			# print(alpha)
