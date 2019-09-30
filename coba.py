@@ -26,7 +26,7 @@ global black_img
 global board_img
 global display
 
-red_img = pygame.image.load('assets/4row_REd.png')
+red_img = pygame.image.load('assets/4row_red.png')
 black_img = pygame.image.load('assets/4row_black.png')
 board_img = pygame.image.load('assets/4row_board.png')
 display = pygame.image.load('assets/4row_board.png')
@@ -34,8 +34,9 @@ display = pygame.image.load('assets/4row_board.png')
 
 def makeBoard():
     board = []
-    for x in range(board_width):
+    for x in range(board_width-1):
         board.append([None]*board_heigth)
+    board.append('red'*board_heigth)
     return board
     
 def drawwBoard(board, extraToken=None):
@@ -43,11 +44,12 @@ def drawwBoard(board, extraToken=None):
     size = pygame.Rect(0,0,50,50)
     for x in range(board_width):
         for y in range(board_heigth):
-            size.topleft = (70 + (x * 50), 65 + (y * 50)
-            if (board[x][y] == 'red'): 
+            size.topleft = (70 + (x * 50), 65 + (y * 50))
+            if (board[x][y] == 'red'):
                 display.blit(red_img,size)
-            elif board[x][y] == 'black':
+            elif (board[x][y] == 'black'):
                 display.blit(black_img,size)
+    display.update()
 
 def main():
     b = makeBoard()

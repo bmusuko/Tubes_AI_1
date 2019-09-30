@@ -72,11 +72,11 @@ class Board:
                                 if(ord(self.board[i][j+1])-48 == (not(is_point_bot))):
                                     if(j+2<self.column):
                                         if(ord(self.board[i][j+2])-48 == (not(is_point_bot))):
-                                            total_point += point(min(3,counter+2),is_point_bot)
+                                            total_point += point(counter+2,is_point_bot)
                                         else:
-                                            total_point += point(min(3,counter+1),is_point_bot)
+                                            total_point += point(counter+1,is_point_bot)
                                     else:
-                                        total_point += point(min(3,counter+1),is_point_bot)        
+                                        total_point += point(counter+1,is_point_bot)        
                                 else:
                                     total_point += point(counter,is_point_bot)
                                 ##print('kiri full')
@@ -86,11 +86,11 @@ class Board:
                                     if(self.board[i+1][j+1] != '-' and ord(self.board[i][j+1])-48 == (not(is_point_bot))):
                                         if(j+2<self.column):
                                             if(self.board[i+1][j+2] != '-' and ord(self.board[i][j+2])-48 == (not(is_point_bot))):
-                                                total_point += point(min(3,counter+2),is_point_bot)
+                                                total_point += point(counter+2,is_point_bot)
                                             else:
-                                                total_point += point(min(3,counter+1),is_point_bot)
+                                                total_point += point(counter+1,is_point_bot)
                                         else:
-                                            total_point += point(min(3,counter+1),is_point_bot)
+                                            total_point += point(counter+1,is_point_bot)
                                 total_point += point(counter,is_point_bot) #serong kanan
                                 ##print("serong kanan")
                             if (j-counter-1>=0): # dipojok
@@ -180,15 +180,7 @@ class Board:
                 if(self.board[i-j][j] == '-'):
                     if(counter != 0):
                         if(self.board[i+1][j] != '-' and i != self.row-1):
-                            c = 0
-                            if((i-j-1)>0):
-                                if(ord(self.board[i-1][j+1])-48 == (not(is_point_bot)) and self.board[i][j+1] != '-'):
-                                    c = 1 
-                                    if(i-j-2>0):
-                                        if(ord(self.board[i-2][j+2])-48 == (not(is_point_bot)) and self.board[i-1][j+2] != '-'):
-                                            c = 2
-                            total_point += point(min(3,counter+c),is_point_bot)
-
+                            total_point += point(counter,is_point_bot)
                             ##print("serong1")
                         if(i+counter+1-j <self.row and j-counter-1 >=0 ):
                             if(self.board[i+counter+1-j][j-counter-1] != '-'):
@@ -224,7 +216,6 @@ class Board:
                         return 10000000
                     else:
                         return -10000000
-        
         #diagonal 1b  
         for j in range(self.column-3):
             i = self.row-1
@@ -235,14 +226,7 @@ class Board:
                 if(self.board[i][j] == '-'):
                     if(counter != 0):
                         if(self.board[i+1][j] != '-'):
-                            c = 0
-                            if(i-1>0 and j+1<self.column):
-                                if(ord(self.board[i-1][j+1])-48 == (not(is_point_bot)) and self.board[i][j+1] != '-'):
-                                    c = 1
-                                    if(i-2>0 and j+2<self.column):
-                                        if(ord(self.board[i-2][j+2])-48 == (not(is_point_bot)) and self.board[i-1][j+2] != '-'):
-                                            c = 2
-                            total_point += point(counter+c,is_point_bot)
+                            total_point += point(counter,is_point_bot)
                             ##print("serong011")
                         if(i+counter+1<self.row and j-counter-1>=0):
                             if(self.board[i+counter+1][j-counter-1] != '-'):
@@ -289,14 +273,7 @@ class Board:
                 if(self.board[i-j][self.column-j-1] == '-'):
                     if(counter != 0):
                         if(self.board[i-j+1][self.column-j-1] != '-'):
-                            c = 0
-                            if((i-j-1)>0 and (self.column-j-2)>0):
-                                if(ord(self.board[i-j-1][self.column-j-2])-48 == (not(is_point_bot)) and self.board[i-j][self.column-j-2] != '-'):
-                                    c = 1
-                                    if((i-j-2)>0 and (self.column-j-3)>0):
-                                        if(ord(self.board[i-j-2][self.column-j-3])-48 == (not(is_point_bot)) and self.board[i-j-1][self.column-j-3] != '-'):
-                                            c = 2 
-                            total_point += point(min(3,counter+c),is_point_bot)
+                            total_point += point(counter,is_point_bot)
                         if(i-j+counter+1 < self.row and self.column-j+counter <self.column):
                             if(self.board[i-j+counter+1][self.column-j+counter] != '-'):
                                 total_point += point(counter,is_point_bot)
@@ -339,14 +316,7 @@ class Board:
                 if(self.board[i][j] == '-'):
                     if(counter != 0):
                         if(self.board[i+1][j] != '-'):
-                            c = 0
-                            if((i-1)>0 and (j-1)>0):
-                                if(ord(self.board[i-1][j-1])-48 == (not(is_point_bot)) and self.board[i-2][j-1] != '-'):
-                                    c = 1
-                                    if((i-2)>0 and (j-2)>0):
-                                        if(ord(self.board[i-2][j-2])-48 == (not(is_point_bot)) and self.board[i-3][j-2] != '-'):
-                                            c = 2
-                            total_point += point(counter+c,is_point_bot)
+                            total_point += point(counter,is_point_bot)
                             ##print("serong01")
                         if(i+counter+1<self.row and j+counter+1<self.column):
                             if(self.board[i+counter+1][j+counter+1] != '-'):

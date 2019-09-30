@@ -21,6 +21,10 @@ while abs(temp) < 1000000:
 		print("Value node "+str(node_step.value))
 		print(node_step.step)
 		board.move(node_step.step)
+		# x = int(input("masukkan move anda : "))
+		# while(not(board.move(x))):
+		# 	print("incorrent move")
+		# 	x = int(input("masukkan move anda : "))
 	# node_step = minimax.minimax(board,1,True,2**64 * -1, 2**64)
 	
 	# x = randint(1,10)
@@ -33,7 +37,7 @@ while abs(temp) < 1000000:
 	# if (abs(board.eval())>)
 	board.print()
 	temp = board.eval()
-	#print(temp)
+	print(temp)
 if(board.turn == 0):
 	print('player 2 win')
 else:
