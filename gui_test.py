@@ -6,7 +6,10 @@ import sys
 # Import non-standard modules.
 import pygame
 from pygame.locals import *
-
+from board import Board
+import minimax
+from random import randint
+import time
 
 def update(dt):
     """
@@ -31,11 +34,12 @@ def update(dt):
         # Handle other events as you wish.
 
 
-def draw(screen,img):
+
+def draw(screen,img_black,img_red,pos_matrix):
     """
     Draw things to the window. Called once per frame.
     """
-    screen.fill((0, 0, 0))  # Fill the screen with black.
+    # screen.fill((0, 0, 0))  # Fill the screen with black.
 
     # Redraw screen here.
     # table = load_tile_table("assets/4row_board.png", 24, 16)
@@ -43,11 +47,17 @@ def draw(screen,img):
     #     for y, tile in enumerate(row):
     #         screen.blit(tile, (x*32, y*24))
 
-    img_con = pygame.transform.scale(img, (80,80))
-    screen.blit(img_con,(0,0))
+    img_con_black = pygame.transform.scale(img_black, (80,80))
+    img_con_red = pygame.transform.scale(img_red, (80,80))
+    for i in range(7):
+        for j in range(10):
+            if (pos_matrix[i][j] == '0'):
+                screen.blit(img_con_black,(j*80, i*80))
+            elif (pos_matrix[i][j] == '1'):
+                screen.blit(img_con_red,(j*80, i*80))
+    # screen.blit(img_con,(x,y))
 
     # Flip the display so that the things we drew actually show up.
-    pygame.display.flip()
 
 def loadBackground(screen, bg_img):
     screen.fill((255, 255, 255))  # Fill the screen with black.
@@ -55,29 +65,18 @@ def loadBackground(screen, bg_img):
     for i in range(10):
         for j in range(8):
             screen.blit(img_con,(80*i,80*j))
-    pygame.display.flip()
-
-def load_tile_table(filename, width, height):
-    image = pygame.image.load(filename).convert()
-    image_width, image_height = image.get_size()
-    tile_table = []
-    for tile_x in range(0, image_width/width):
-        line = []
-        tile_table.append(line)
-        for tile_y in range(0, image_height/height):
-            rect = (tile_x*width, tile_y*height, width, height)
-            line.append(image.subsurface(rect))
-    return tile_table
-
+    # pygame.display.flip()
 
 def runPyGame():
+    board = Board()
+    temp = 0
     # Initialise PyGame.
     pygame.init()
     pygame.display.set_caption('Connect Four')
 
     # Load the neccesary asset
     black_disc_img = pygame.image.load('assets/4row_black.png')
-    red_disc_img = pygame.image.load('assets/4row_black.png')
+    red_disc_img = pygame.image.load('assets/4row_red.png')
     blank_disc_img =  pygame.image.load('assets/4row_board.png')
 
     # Set up the clock. This will tick every frame and thus maintain a relatively constant framerate. Hopefully.
@@ -93,11 +92,44 @@ def runPyGame():
 
     # Main game loop.
     dt = 1/fps  # dt is the time since last frame.
-    while True:  # Loop forever!
+    while abs(temp) < 1000000:  # Loop forever!
         # You can update/draw here, I've just moved the code for neatness.
         update(dt)
         loadBackground(screen, blank_disc_img)
-        draw(screen,black_disc_img)
+        # draw(screen,red_disc_img,0,0)
+        # draw(screen,black_disc_img,80,0)
+        if(board.turn == 0):
+            print("Computer's Turn : ")
+            node_step = minimax.Node()
+            node_step.changeValue(-99999999,0)
+            for i in range(4,0,-1):
+                node_dummy = minimax.minimax(board,i,True,2**64 * -1, 2**64)
+                if (node_dummy.value > 1000000):
+                    node_step.changeValue(node_dummy.value,node_dummy.step)
+                    break
+                if (node_dummy.value > node_step.value):
+                    node_step.changeValue(node_dummy.value,node_dummy.step)
+            print("Value node "+str(node_step.value))
+            print(node_step.step)
+            board.move(node_step.step)
+            
+            # node_step = minimax.minimax(board,1,True,2**64 * -1, 2**64)
+            
+            # x = randint(1,10)
+            # time.sleep(0.5)
+        else:
+            x = int(input("masukkan move anda : "))
+            while(not(board.move(x))):
+                print("incorrent move")
+                x = int(input("masukkan move anda : "))
+        draw(screen, black_disc_img, red_disc_img, board.board)        
+        # if (abs(board.eval())>)
+        board.print()
+        temp = board.eval()
+        #print(temp)
+
+
+        pygame.display.flip()
         dt = fpsClock.tick(fps)
 
 def main():
@@ -105,3 +137,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+
+#BELOM ADA EVENT LISTENER
