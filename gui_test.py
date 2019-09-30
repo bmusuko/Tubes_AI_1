@@ -31,16 +31,43 @@ def update(dt):
         # Handle other events as you wish.
 
 
-def draw(screen):
+def draw(screen,img):
     """
     Draw things to the window. Called once per frame.
     """
     screen.fill((0, 0, 0))  # Fill the screen with black.
 
     # Redraw screen here.
+    # table = load_tile_table("assets/4row_board.png", 24, 16)
+    # for x, row in enumerate(table):
+    #     for y, tile in enumerate(row):
+    #         screen.blit(tile, (x*32, y*24))
+
+    img_con = pygame.transform.scale(img, (80,80))
+    screen.blit(img_con,(0,0))
 
     # Flip the display so that the things we drew actually show up.
     pygame.display.flip()
+
+def loadBackground(screen, bg_img):
+    screen.fill((255, 255, 255))  # Fill the screen with black.
+    img_con = pygame.transform.scale(bg_img, (80,80))
+    for i in range(10):
+        for j in range(8):
+            screen.blit(img_con,(80*i,80*j))
+    pygame.display.flip()
+
+def load_tile_table(filename, width, height):
+    image = pygame.image.load(filename).convert()
+    image_width, image_height = image.get_size()
+    tile_table = []
+    for tile_x in range(0, image_width/width):
+        line = []
+        tile_table.append(line)
+        for tile_y in range(0, image_height/height):
+            rect = (tile_x*width, tile_y*height, width, height)
+            line.append(image.subsurface(rect))
+    return tile_table
 
 
 def runPyGame():
@@ -49,16 +76,15 @@ def runPyGame():
     pygame.display.set_caption('Connect Four')
 
     # Load the neccesary asset
-    # black_disc_img = pygame.image.load('assets/4row_black.png')
-    # red_disc_img = pygame.image.load('assets/4row_black.png')
-    # blank_disc_img =  pygame.image.load('assets/4row_black.png')
+    black_disc_img = pygame.image.load('assets/4row_black.png')
+    red_disc_img = pygame.image.load('assets/4row_black.png')
+    blank_disc_img =  pygame.image.load('assets/4row_board.png')
 
     # Set up the clock. This will tick every frame and thus maintain a relatively constant framerate. Hopefully.
     fps = 60.0
     fpsClock = pygame.time.Clock()
-
     # Set up the window.
-    width, height = 640, 480
+    width, height = (80*10), (80*7)
     screen = pygame.display.set_mode((width, height))
 
     # screen is the surface representing the window.
@@ -70,8 +96,8 @@ def runPyGame():
     while True:  # Loop forever!
         # You can update/draw here, I've just moved the code for neatness.
         update(dt)
-        draw(screen)
-
+        loadBackground(screen, blank_disc_img)
+        draw(screen,black_disc_img)
         dt = fpsClock.tick(fps)
 
 def main():
