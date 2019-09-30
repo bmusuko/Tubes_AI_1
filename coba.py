@@ -45,7 +45,11 @@ def drawwBoard(board, extraToken=None):
     for x in range(board_width):
         for y in range(board_heigth):
             size.topleft = (70 + (x * 50), 65 + (y * 50))
+<<<<<<< HEAD
             if (board[x][y] == 'red'):
+=======
+            if (board[x][y] == 'red'): 
+>>>>>>> b85f5494c7a5df3c492a19e608d006d4eeb21727
                 display.blit(red_img,size)
             elif (board[x][y] == 'black'):
                 display.blit(black_img,size)
