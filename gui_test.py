@@ -32,7 +32,6 @@ white = (255,255,255)
 black = (0,0,0)
 
 
-
 def update(dt, board):
     """
     Update game. Called once per frame.
@@ -170,22 +169,22 @@ def runPyGame():
 def main():
     pygame.init()
 
-    intro = True
+    # intro = True
 
-    while intro:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+    # while intro:
+    #     for event in pygame.event.get():
+    #         if event.type == pygame.QUIT:
+    #             pygame.quit()
+    #             quit()
 
-        screen.fill(white)
-        largeText = pygame.font.Font('freesansbold.ttf',115)
-        textSurf, textRect = text_objects("Connect 4", largeText)
-        textRect.center = ((width/2), (height/2))
-        screen.blit(textSurf,textRect)
-        pygame.display.update()
-        fpsClock.tick(30)
-        runPyGame()    
+    #     screen.fill(white)
+    #     largeText = pygame.font.Font('freesansbold.ttf',115)
+    #     textSurf, textRect = text_objects("Connect 4", largeText)
+    #     textRect.center = ((width/2), (height/2))
+    #     screen.blit(textSurf,textRect)
+    #     pygame.display.update()
+    #     fpsClock.tick(30)
+    runPyGame()    
 
 if __name__ == "__main__":
     main()
