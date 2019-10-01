@@ -11,6 +11,25 @@ import minimax
 from random import randint
 import time
 
+
+
+pygame.display.set_caption('Connect Four')
+
+# Load the neccesary asset
+black_disc_img = pygame.image.load('assets/4row_black.png')
+red_disc_img = pygame.image.load('assets/4row_red.png')
+red_disc_img = pygame.transform.scale(red_disc_img, (80, 80))
+blank_disc_img =  pygame.image.load('assets/4row_board.png')
+
+# Set up the clock. This will tick every frame and thus maintain a relatively constant framerate. Hopefully.
+fps = 60.0
+fpsClock = pygame.time.Clock()
+# Set up the window.
+width, height = (80*10), (80*7)
+screen = pygame.display.set_mode((width, height))
+
+
+
 def update(dt, board):
     """
     Update game. Called once per frame.
@@ -37,6 +56,11 @@ def update(dt, board):
             #pos is an array, (x,y)
             x = int(math.ceil(pos[0]/80))
             board.move(x)
+
+        if event.type == pygame.MOUSEMOTION:
+            posx, posy = pygame.mouse.get_pos()
+            screen.blit(red_disc_img,(posx-50,posy-50))
+            pygame.display.update()
 
 
 
@@ -78,19 +102,19 @@ def runPyGame():
     temp = 0
     # Initialise PyGame.
     pygame.init()
-    pygame.display.set_caption('Connect Four')
+    # pygame.display.set_caption('Connect Four')
 
-    # Load the neccesary asset
-    black_disc_img = pygame.image.load('assets/4row_black.png')
-    red_disc_img = pygame.image.load('assets/4row_red.png')
-    blank_disc_img =  pygame.image.load('assets/4row_board.png')
+    # # Load the neccesary asset
+    # black_disc_img = pygame.image.load('assets/4row_black.png')
+    # red_disc_img = pygame.image.load('assets/4row_red.png')
+    # blank_disc_img =  pygame.image.load('assets/4row_board.png')
 
-    # Set up the clock. This will tick every frame and thus maintain a relatively constant framerate. Hopefully.
-    fps = 60.0
-    fpsClock = pygame.time.Clock()
-    # Set up the window.
-    width, height = (80*10), (80*7)
-    screen = pygame.display.set_mode((width, height))
+    # # Set up the clock. This will tick every frame and thus maintain a relatively constant framerate. Hopefully.
+    # fps = 60.0
+    # fpsClock = pygame.time.Clock()
+    # # Set up the window.
+    # width, height = (80*10), (80*7)
+    # screen = pygame.display.set_mode((width, height))
 
     # screen is the surface representing the window.
     # PyGame surfaces can be thought of as screen sections that you can draw onto.
@@ -100,8 +124,8 @@ def runPyGame():
     dt = 1/fps  # dt is the time since last frame.
     while abs(temp) < 1000000:  # Loop forever!
         # You can update/draw here, I've just moved the code for neatness.
-        update(dt,board)
         loadBackground(screen, blank_disc_img)
+        update(dt,board)
         # draw(screen,red_disc_img,0,0)
         # draw(screen,black_disc_img,80,0)
         if(board.turn == 0):
