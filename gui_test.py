@@ -18,8 +18,11 @@ pygame.display.set_caption('Connect Four')
 # Load the neccesary asset
 black_disc_img = pygame.image.load('assets/4row_black.png')
 red_disc_img = pygame.image.load('assets/4row_red.png')
-red_disc_img = pygame.transform.scale(red_disc_img, (80, 80))
+# red_disc_img = pygame.transform.scale(red_disc_img, (80, 80))
 blank_disc_img =  pygame.image.load('assets/4row_board.png')
+
+red_img = pygame.image.load('assets/4row_red.png')
+red_img = pygame.transform.scale(red_disc_img, (80, 80))
 
 # Set up the clock. This will tick every frame and thus maintain a relatively constant framerate. Hopefully.
 fps = 60.0
@@ -61,7 +64,7 @@ def update(dt, board):
 
         if event.type == pygame.MOUSEMOTION:
             posx, posy = pygame.mouse.get_pos()
-            screen.blit(red_disc_img,(posx-50,posy-50))
+            screen.blit(red_img,(posx-50,posy-50))
             pygame.display.update()
 
 
