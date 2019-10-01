@@ -12,30 +12,20 @@ from random import randint
 import time
 
 
+# red_img = pygame.image.load('assets/4row_red.png')
 
-pygame.display.set_caption('Connect Four')
-
-# Load the neccesary asset
-black_disc_img = pygame.image.load('assets/4row_black.png')
-red_disc_img = pygame.image.load('assets/4row_red.png')
-# red_disc_img = pygame.transform.scale(red_disc_img, (80, 80))
-blank_disc_img =  pygame.image.load('assets/4row_board.png')
-
-red_img = pygame.image.load('assets/4row_red.png')
-red_img = pygame.transform.scale(red_disc_img, (80, 80))
-
-# Set up the clock. This will tick every frame and thus maintain a relatively constant framerate. Hopefully.
-fps = 60.0
-fpsClock = pygame.time.Clock()
-# Set up the window.
-width, height = (80*10), (80*7)
-screen = pygame.display.set_mode((width, height))
+# # Set up the clock. This will tick every frame and thus maintain a relatively constant framerate. Hopefully.
+# fps = 60.0
+# fpsClock = pygame.time.Clock()
+# # Set up the window.
+# width, height = (80*10), (80*7)
+# screen = pygame.display.set_mode((width, height))
 
 white = (255,255,255)
 black = (0,0,0)
 
 
-def update(dt, board):
+def update(dt, board, screen,red_img):
     """
     Update game. Called once per frame.
     dt is the amount of time passed since last frame.
@@ -48,9 +38,7 @@ def update(dt, board):
 
     # Go through events that are passed to the script by the window.
     for event in pygame.event.get():
-        # We need to handle these events. Initially the only one you'll want to care
-        # about is the QUIT event, because if you don't handle it, your game will crash
-        # whenever someone tries to exit.
+        
         if event.type == QUIT:
             pygame.quit()  # Opposite of pygame.init
             sys.exit()  # Not including this line crashes the script on Windows. Possibly
@@ -61,11 +49,6 @@ def update(dt, board):
             #pos is an array, (x,y)
             x = int(math.ceil(pos[0]/80))
             board.move(x)
-
-        if event.type == pygame.MOUSEMOTION:
-            posx, posy = pygame.mouse.get_pos()
-            screen.blit(red_img,(posx-50,posy-50))
-            pygame.display.update()
 
 
 def text_objects(text, font):
@@ -84,17 +67,15 @@ def draw(screen,img_black,img_red,pos_matrix):
     #     for y, tile in enumerate(row):
     #         screen.blit(tile, (x*32, y*24))
 
-    img_con_black = pygame.transform.scale(img_black, (80,80))
-    img_con_red = pygame.transform.scale(img_red, (80,80))
+    # img_con_black = pygame.transform.scale(img_black, (80,80))
+    # img_con_red = pygame.transform.scale(img_red, (80,80))
+
     for i in range(7):
         for j in range(10):
             if (pos_matrix[i][j] == '0'):
-                screen.blit(img_con_black,(j*80, i*80))
+                screen.blit(img_black,(j*80, i*80))
             elif (pos_matrix[i][j] == '1'):
-                screen.blit(img_con_red,(j*80, i*80))
-    # screen.blit(img_con,(x,y))
-
-    # Flip the display so that the things we drew actually show up.
+                screen.blit(img_red,(j*80, i*80))
 
 def loadBackground(screen, bg_img):
     screen.fill((255, 255, 255))  # Fill the screen with black.
@@ -104,24 +85,38 @@ def loadBackground(screen, bg_img):
             screen.blit(img_con,(80*i,80*j))
     # pygame.display.flip()
 
+def blit_alpha(target, source, location, opacity):
+    x = location[0]
+    y = location[1]
+    temp = pygame.Surface((source.get_width(), source.get_height())).convert()
+    temp.blit(target, (-x, -y))
+    temp.blit(source, (0, 0))
+    temp.set_alpha(opacity)        
+    target.blit(temp, location)
+
 def runPyGame():
     board = Board()
     temp = 0
+
     # Initialise PyGame.
     pygame.init()
-    # pygame.display.set_caption('Connect Four')
+    pygame.display.set_caption('Connect Four')
 
-    # # Load the neccesary asset
-    # black_disc_img = pygame.image.load('assets/4row_black.png')
-    # red_disc_img = pygame.image.load('assets/4row_red.png')
-    # blank_disc_img =  pygame.image.load('assets/4row_board.png')
+    # Load the neccesary asset
+    black_disc_img = pygame.transform.scale(pygame.image.load('assets/4row_black.png'), (80,80))
+    red_disc_img = pygame.transform.scale(pygame.image.load('assets/4row_red.png'), (80,80))
+    blank_disc_img =  pygame.transform.scale(pygame.image.load('assets/4row_board.png'), (80,80))
 
-    # # Set up the clock. This will tick every frame and thus maintain a relatively constant framerate. Hopefully.
-    # fps = 60.0
-    # fpsClock = pygame.time.Clock()
-    # # Set up the window.
-    # width, height = (80*10), (80*7)
-    # screen = pygame.display.set_mode((width, height))
+    red_disc_img_small = pygame.transform.scale(pygame.image.load('assets/4row_red.png'), (70,70))
+
+
+    # Set up the clock. This will tick every frame and thus maintain a relatively constant framerate. Hopefully.
+    fps = 60.0
+    fpsClock = pygame.time.Clock()
+
+    # Set up the window.
+    width, height = (80*10), (80*7)
+    screen = pygame.display.set_mode((width, height))
 
     # screen is the surface representing the window.
     # PyGame surfaces can be thought of as screen sections that you can draw onto.
@@ -132,7 +127,7 @@ def runPyGame():
     while abs(temp) < 1000000:  # Loop forever!
         # You can update/draw here, I've just moved the code for neatness.
         loadBackground(screen, blank_disc_img)
-        update(dt,board)
+        update(dt,board,screen,red_disc_img)
         # draw(screen,red_disc_img,0,0)
         # draw(screen,black_disc_img,80,0)
         if(board.turn == 0):
@@ -150,28 +145,17 @@ def runPyGame():
             print(node_step.step)
             board.move(node_step.step)
             
-            # node_step = minimax.minimax(board,1,True,2**64 * -1, 2**64)
-            
-            # x = randint(1,10)
-            # time.sleep(0.5)
-        # else:
-        #     # x = int(input("masukkan move anda : "))
-        #     x = int(math.ceil(x_pos/80))
-        #     board.move(x)
-        #     # while(not(board.move(x))):
-        #     #     print("incorrent move")
-        #     #     x = int(input("masukkan move anda : "))
-        draw(screen, black_disc_img, red_disc_img, board.board)        
+        draw(screen, black_disc_img, red_disc_img, board.board)  
+        posx, posy = pygame.mouse.get_pos()
+        blit_alpha(screen,red_disc_img_small,((posx-(posx%80)+5),(posy-(posy%80)+5)),128)      
         # # if (abs(board.eval())>)
-        # board.print()
         temp = board.eval()
 
         pygame.display.flip()
         dt = fpsClock.tick(fps)
 
 def main():
-    pygame.init()
-
+    # pygame.init()
     # intro = True
 
     # while intro:
@@ -191,8 +175,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-#BELOM ADA EVENT LISTENER
