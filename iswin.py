@@ -40,8 +40,8 @@ def is_win(self):
 	# check diagonally (top left to bottom right)
 	for start_row in range(self.row-(4-1)):
 		connect_counter = 0
-		for point in range(start_row,self.row):
-			if(self.board[point][point] == checker):
+		for point in range(self.row-start_row):
+			if(self.board[point+start_row][point] == checker):
 				connect_counter += 1
 			else:
 				connect_counter = 0
@@ -51,8 +51,10 @@ def is_win(self):
 
 	for start_column in range(self.column-(4-1)):
 		connect_counter = 0 
-		for point in range(start_column, self.column):
-			if(self.board[point][point] == checker):
+		for point in range(self.column-start_column):
+			if(point == self.row):
+				break
+			if(self.board[point][point+start_column] == checker):
 				connect_counter += 1
 			else:
 				connect_counter = 0
@@ -61,28 +63,28 @@ def is_win(self):
 				return True, [(i, i) for i in range(point-3, point+1)]
 
 	# now check diagonally bottom left to top right
-	for start_row in range(self.row-1, self.row-(4+1), -1):
+	for start_row in range(self.row-(4-1)):
 		connect_counter = 0
-		for point in range(start_row, -1, -1):
-			if(self.board[point][self.column-point] == checker):
+		for point in range(row-start_row):
+			if(self.board[self.row-(point+start_row)-1][point] == checker):
 				connect_counter += 1
 			else:
 				connect_counter = 0
 
 			if(connect_counter == 4):
-				return True, [(i, self.column-i) for i in range(point+3, point-1, -1)]
+				return True, [(row-i-1, i) for i in range(point-3,point+1)]
 
 
 	for start_column in range(self.column-(4-1)):
 		connect_counter = 0
-		for point in range(start_column, self.column):
-			if(self.board[point][self.column-point-1] == checker):
+		for point in range(self.column-start_column):
+			if(self.board[self.row-point-1][point+start_column] == checker):
 				connect_counter += 1
 			else:
 				connect_counter = 0
 
 			if(connect_counter == 4):
-				return True, [(self.row-i, i) for i in range(point-3, point+1)]
+				return True, [(row-i-1, i) for i in range(point-3,point+1)]
 
 
 	return False, [(i,i) for i in range(4)]
