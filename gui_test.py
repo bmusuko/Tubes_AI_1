@@ -28,6 +28,9 @@ fpsClock = pygame.time.Clock()
 width, height = (80*10), (80*7)
 screen = pygame.display.set_mode((width, height))
 
+white = (255,255,255)
+black = (0,0,0)
+
 
 
 def update(dt, board):
@@ -63,7 +66,9 @@ def update(dt, board):
             pygame.display.update()
 
 
-
+def text_objects(text, font):
+    textSurface = font.render(text, True, black)
+    return textSurface, textSurface.get_rect()
 
 def draw(screen,img_black,img_red,pos_matrix):
     """
@@ -163,7 +168,24 @@ def runPyGame():
         dt = fpsClock.tick(fps)
 
 def main():
-    runPyGame()    
+    pygame.init()
+
+    intro = True
+
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        screen.fill(white)
+        largeText = pygame.font.Font('freesansbold.ttf',115)
+        textSurf, textRect = text_objects("Connect 4", largeText)
+        textRect.center = ((width/2), (height/2))
+        screen.blit(textSurf,textRect)
+        pygame.display.update()
+        fpsClock.tick(30)
+        runPyGame()    
 
 if __name__ == "__main__":
     main()
