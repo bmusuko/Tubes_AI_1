@@ -78,6 +78,8 @@ def is_win(self):
 	for start_column in range(self.column-(4-1)):
 		connect_counter = 0
 		for point in range(self.column-start_column):
+			if(point == self.row):
+				break
 			if(self.board[self.row-point-1][point+start_column] == checker):
 				connect_counter += 1
 			else:
