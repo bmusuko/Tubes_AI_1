@@ -2,7 +2,7 @@
 
 # Import standard modules.
 import sys
-
+import math
 # Import non-standard modules.
 import pygame
 from pygame.locals import *
@@ -11,7 +11,7 @@ import minimax
 from random import randint
 import time
 
-def update(dt):
+def update(dt, board):
     """
     Update game. Called once per frame.
     dt is the amount of time passed since last frame.
@@ -32,6 +32,12 @@ def update(dt):
             sys.exit()  # Not including this line crashes the script on Windows. Possibly
             # on other operating systems too, but I don't know for sure.
         # Handle other events as you wish.
+        if event.type == pygame.MOUSEBUTTONUP:
+            pos = pygame.mouse.get_pos()
+            #pos is an array, (x,y)
+            x = int(math.ceil(pos[0]/80))
+            board.move(x)
+
 
 
 
@@ -94,7 +100,7 @@ def runPyGame():
     dt = 1/fps  # dt is the time since last frame.
     while abs(temp) < 1000000:  # Loop forever!
         # You can update/draw here, I've just moved the code for neatness.
-        update(dt)
+        update(dt,board)
         loadBackground(screen, blank_disc_img)
         # draw(screen,red_disc_img,0,0)
         # draw(screen,black_disc_img,80,0)
@@ -117,17 +123,17 @@ def runPyGame():
             
             # x = randint(1,10)
             # time.sleep(0.5)
-        else:
-            x = int(input("masukkan move anda : "))
-            while(not(board.move(x))):
-                print("incorrent move")
-                x = int(input("masukkan move anda : "))
+        # else:
+        #     # x = int(input("masukkan move anda : "))
+        #     x = int(math.ceil(x_pos/80))
+        #     board.move(x)
+        #     # while(not(board.move(x))):
+        #     #     print("incorrent move")
+        #     #     x = int(input("masukkan move anda : "))
         draw(screen, black_disc_img, red_disc_img, board.board)        
-        # if (abs(board.eval())>)
-        board.print()
+        # # if (abs(board.eval())>)
+        # board.print()
         temp = board.eval()
-        #print(temp)
-
 
         pygame.display.flip()
         dt = fpsClock.tick(fps)
