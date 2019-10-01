@@ -230,7 +230,10 @@ def runPyGame():
             
         draw(screen, black_disc_img, red_disc_img, board.board)  
         posx, posy = pygame.mouse.get_pos()
-        blit_alpha(screen,red_disc_img_small,((posx-(posx%80)+5),(posy-(posy%80)+5)),128)      
+        x_cor = int(math.ceil(posx/80))
+        for j in range(7):
+            if (board.board[j][x_cor-1] == '-'):
+                blit_alpha(screen,red_disc_img_small,((posx-(posx%80)+5),(80*j)+5),64)
         temp = board.eval()
         pygame.display.flip()
         dt = fpsClock.tick(fps)
